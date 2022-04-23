@@ -1,0 +1,10 @@
+{
+  "name": "bdea-wordcloud",
+  "dockerComposeFile": ["docker-compose.yml"],
+  "service": "app",
+  "workspaceFolder": "/workspace",
+  "forwardPorts": [],
+  "extensions": [
+    "ms-python.python"
+  ]
+}

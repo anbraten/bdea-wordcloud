@@ -1,12 +1,14 @@
 version: '3'
 
 services:
-  pyspark:
-    image: ykursadkaya/pyspark:3.2.0
+  app:
+    build: .
     working_dir: /usr/src/myapp
     entrypoint: sleep infinity
     volumes:
-      - ./src:/usr/src/myapp
+      - ../:/workspace
+      - ../data:/poor-hdfs
+      - ~/.ssh:/root/.ssh:ro
 
   spark:
     image: docker.io/bitnami/spark:3
@@ -18,6 +20,8 @@ services:
       - SPARK_SSL_ENABLED=no
     ports:
       - '8282:8080'
+    # volumes:
+    #   - ../data:/data
 
   spark-worker:
     image: docker.io/bitnami/spark:3
@@ -30,3 +34,5 @@ services:
       - SPARK_RPC_ENCRYPTION_ENABLED=no
       - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
       - SPARK_SSL_ENABLED=no
+    volumes:
+      - ../data:/poor-hdfs
