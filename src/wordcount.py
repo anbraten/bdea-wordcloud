@@ -11,7 +11,7 @@ spark = SparkSession.builder \
 sc = spark.sparkContext
 sc.setLogLevel("ERROR")
 
-txt = sc.textFile(basePath + 'faust.txt')
+txt = sc.textFile(basePath + 'uploads/*')
 words = txt.flatMap(lambda line: re.split('\W+', line.lower()))
 words = words.filter(lambda x: len(x) > 3)
 wordCounts = words.map(lambda word: (word, 1)).reduceByKey(lambda a,b:a +b)
@@ -22,7 +22,7 @@ output = sortedWordCounts.collect()
 for (word, count) in output:
     print("%s: found %i times" % (word, count))
 
-print("Number od different words -> %i" % (sortedWordCounts.count()))
+print("Number of different words -> %i" % (sortedWordCounts.count()))
 
 sc.stop()
 spark.stop()
