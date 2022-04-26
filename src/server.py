@@ -5,6 +5,7 @@ from flask import Flask, render_template, request, redirect, url_for, abort, \
 from werkzeug.utils import secure_filename
 
 import route_wordcloud
+import route_wordcount
 
 app = Flask(__name__)
 app.config['MAX_CONTENT_LENGTH'] = 2 * 1024 * 1024
@@ -45,6 +46,7 @@ def upload(filename):
     return send_from_directory(app.config['UPLOAD_PATH'], filename)
 
 app.add_url_rule('/wordcloud/<filename>', view_func=route_wordcloud.wordcloud)
+app.add_url_rule('/wordcount/trigger', view_func=route_wordcount.trigger_wordcount)
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=True)
