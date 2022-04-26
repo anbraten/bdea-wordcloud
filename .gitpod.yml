@@ -1,0 +1,15 @@
+tasks:
+  - init: |
+      pip install -r ./requirements.txt
+    command: |
+      docker-compose up -d
+      make start
+
+vscode:
+  extensions:
+    - editorconfig.editorconfig
+    - ms-python.python
+
+ports:
+  - port: 5000
+    onOpen: open-preview
