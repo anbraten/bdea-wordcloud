@@ -24,4 +24,4 @@ services:
       - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
       - SPARK_SSL_ENABLED=no
     volumes:
-      - ../data:/poor-hdfs
+      - ./data:/poor-hdfs

@@ -6,7 +6,7 @@ all: get build install
 wordcount: ## Run wordcount rdd
 	spark-submit --master $(MASTER) src/wordcount.py
 
-start:
+start: ## Start the webserver
 	FLASK_APP=src/server FLASK_ENV=development flask run
 
 help: ## Display this help screen
