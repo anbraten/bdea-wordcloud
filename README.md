@@ -1,5 +1,18 @@
 # bdea-workcloud
 
+
+Geh zu .devcontainer:
+
+``` docker-compose build
+docker-compose up -d
+docker-compose exec app bash
+```
+In der container app:
+```
+make wordcount
+make start
+``` 
+
 ## TODO
 - [ ] add frontend
 - [x] add backend
