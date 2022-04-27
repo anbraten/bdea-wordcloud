@@ -4,8 +4,11 @@ DOCKER_COMPOSE := docker-compose -f .devcontainer/docker-compose.yml
 .PHONY: all test coverage
 all: get build install
 
-wordcount: ## Run wordcount rdd
-	spark-submit --master $(MASTER) --driver-class-path /poor-hdfs/postgresql-42.3.4.jar --jars /poor-hdfs/postgresql-42.3.4.jar spark/wordcount.py
+df: ## Run document frequency batch rdd job
+	spark-submit --master $(MASTER) --driver-class-path /poor-hdfs/postgresql-42.3.4.jar --jars /poor-hdfs/postgresql-42.3.4.jar spark/df.py
+
+tfidf: ## Run term frequency rdd job
+	spark-submit --master $(MASTER) --driver-class-path /poor-hdfs/postgresql-42.3.4.jar --jars /poor-hdfs/postgresql-42.3.4.jar spark/tfidf.py sample3.txt
 
 docker-up: ## Start docker setup
 	$(DOCKER_COMPOSE) up -d
