@@ -1,7 +1,7 @@
 import imghdr
 import os
 from flask import Flask, render_template, request, redirect, url_for, abort, \
-    send_from_directory, redirect
+    send_from_directory, redirect, jsonify
 from werkzeug.utils import secure_filename
 import mimetypes
 
@@ -17,6 +17,9 @@ def upload():
         uploaded_file.save(os.path.join(config.get()['UPLOAD_PATH'], filename))
     return redirect("/", code=302)
     # return '', 204
+
+def get_all_uploaded_files():
+    return jsonify([f for f in os.listdir(config.get()['UPLOAD_PATH']) if os.path.isfile(os.path.join(config.get()['UPLOAD_PATH'], f))])
 
 def uploaded_files(filename):
     return send_from_directory(config.get()['UPLOAD_PATH'], filename)
