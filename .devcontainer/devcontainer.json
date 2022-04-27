@@ -3,9 +3,7 @@
   "dockerComposeFile": ["docker-compose.yml"],
   "service": "app",
   "workspaceFolder": "/workspace",
-  "forwardPorts": [
-    5000,
-  ],
+  "forwardPorts": [5000, 5000],
   "extensions": [
     "ms-python.python"
   ]

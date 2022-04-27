@@ -1,9 +1,19 @@
 <html>
-   <body>
-      <form action = "http://localhost:5000/uploader" method = "POST"
-         enctype = "multipart/form-data">
-         <input type = "file" name = "file" />
-         <input type = "submit"/>
-      </form>
-   </body>
+
+<body>
+   <div style="display: flex; flex-flow: column;">
+      {%for i in files %}
+      <a href="" style="display: flex; flex-flow: column;">
+         <span>{{i}}</span>
+         <img width="300" src="/api/wordcloud/{{i}}" />
+      </a>
+      {%endfor%}
+   </div>
+
+   <form action="/api/uploads" method="POST" enctype="multipart/form-data">
+      <input type="file" name="file" />
+      <input type="submit" />
+   </form>
+</body>
+
 </html>
