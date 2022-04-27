@@ -7,6 +7,7 @@
     :key="index"
     outlined
     style="width: 300px; margin-right: 20px; margin-bottom: 20px">
+      <!-- TODO make ip and port dynamic -->
     <ui-image-item
         :bg-image="`${'http://localhost:5000'}/api/wordcloud/${name}`"
     >
@@ -20,6 +21,7 @@
 <script>
 export default {
   async created() {
+    //todo make dynamic ip and port
     const res = await fetch('http://localhost:5000/api/get/all_filenames')
     this.files = await res.json()
   },
