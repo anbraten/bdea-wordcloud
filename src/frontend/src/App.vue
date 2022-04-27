@@ -1,17 +1,16 @@
 <template>
-  <form action="/api/uploads" method="POST" enctype="multipart/form-data">
-    <input type="file" name="file" />
-    <input type="submit" />
-  </form>
+  <FileUpload></FileUpload>
   <WordcloudList></WordcloudList>
 </template>
 
 <script>
 
 import WordcloudList from "@/components/WordcloudList";
+import FileUpload from "@/components/FileUpload";
 export default {
   name: 'App',
   components: {
+    FileUpload,
     WordcloudList,
   }
 }
