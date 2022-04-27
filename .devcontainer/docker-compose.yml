@@ -24,8 +24,6 @@ services:
       - SPARK_SSL_ENABLED=no
     ports:
       - '8282:8080'
-    # volumes:
-    #   - ../data:/data
 
   spark-worker:
     image: docker.io/bitnami/spark:3
@@ -40,3 +38,8 @@ services:
       - SPARK_SSL_ENABLED=no
     volumes:
       - ../data:/poor-hdfs
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: passw0rd

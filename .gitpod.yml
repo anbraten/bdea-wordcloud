@@ -2,7 +2,7 @@ tasks:
   - before: |
       pip install -r ./requirements.txt
     command: |
-      docker-compose up -d
+      make docker-up
       make start
 
 vscode:
