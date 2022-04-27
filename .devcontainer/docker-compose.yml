@@ -12,7 +12,7 @@ services:
       - ../data:/poor-hdfs
       - ~/.ssh:/root/.ssh:ro
     ports:
-      - 5000:5000
+      - '5000:5000'
 
   spark:
     image: docker.io/bitnami/spark:3
