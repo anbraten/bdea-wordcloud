@@ -2,6 +2,7 @@ const { defineConfig } = require('@vue/cli-service')
 module.exports = defineConfig({
   runtimeCompiler: true,
   lintOnSave: true,
+  outputDir: '../templates',
   // NOTE: set alias via `configureWebpack` or `chainWebpack`
   configureWebpack: {
     resolve: {

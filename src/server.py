@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
 from flask_cors import CORS
 
 import route_wordcloud
@@ -8,8 +8,8 @@ import route_upload
 import config
 
 
-#app = Flask(__name__, static_folder='./templates', static_url_path='')
-app = Flask(__name__)
+app = Flask(__name__, static_folder='./templates', static_url_path='')
+
 CORS(app)
 
 @app.errorhandler(413)
@@ -17,9 +17,8 @@ def too_large(e):
     return "File is too large", 413
 
 @app.route('/')
-def index():
-    files = os.listdir(config.get()['UPLOAD_PATH'])
-    return render_template('index.html', files=files)
+def re():
+    return redirect("/index.html", code=302)
 
 app.add_url_rule('/api/uploads', view_func=route_upload.upload, methods=['POST'])
 app.add_url_rule('/api/get/all_filenames', view_func=route_upload.get_all_uploaded_files)
