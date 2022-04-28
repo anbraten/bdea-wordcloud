@@ -24,6 +24,13 @@ make wordcount # run batch job in spark
 make start # start webserver
 ``` 
 
+Inside the src/frontend/:
+```bash
+npm install # install dependencies 
+npm run serve  # starts development server
+npm run build # builds frontend for production in src/templates
+``` 
+
 ## TODO
 - [ ] add frontend
 - [x] add backend
