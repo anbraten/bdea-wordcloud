@@ -1,7 +1,8 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.types import StructType, StructField, StringType, IntegerType
+from pyspark.sql.types import StructType, StructField, StringType, FloatType
 import re
 import os
+import math
 
 basePath = 'file:///poor-hdfs/'
 
@@ -14,6 +15,9 @@ sc = spark.sparkContext
 sc.setLogLevel("ERROR")
 
 txt = sc.wholeTextFiles(basePath + 'uploads/*.txt')
+
+txtAmount = txt.count()
+print("%i files will be scanned ..." % (txtAmount))
 
 # [('path to file', 'content of the file')] => [(('filename', 'lower case word'), 1)]
 words = txt.flatMap(lambda x: [((os.path.basename(x[0]),i.lower()),1) for i in re.split('\W+', x[1])])
@@ -29,6 +33,8 @@ tf = words.map(lambda x: (x[0][1],(x[0][0],x[1])))
 
 df = tf.map(lambda x: (x[0],1)).reduceByKey(lambda x,y:x+y)
 
+df = df.map(lambda x: (x[0], math.log10(txtAmount / x[1])))
+
 # for i in df.collect():
 #     print(i)
 
@@ -36,7 +42,7 @@ df = tf.map(lambda x: (x[0],1)).reduceByKey(lambda x,y:x+y)
 
 schema = StructType([
         StructField('word', StringType(), False),
-        StructField('amount', IntegerType(), False),
+        StructField('idf', FloatType(), False),
     ])
 
 df = spark.createDataFrame(df, schema=schema)

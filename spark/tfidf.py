@@ -42,9 +42,9 @@ df = spark.read \
 # left join and set df to 1 if it is None
 tfidf = tf.leftOuterJoin(df.rdd).map(lambda x: (x[0], (x[1][0], x[1][1] or 1)))
 
-tfidf = tfidf.map(lambda x: (x[0], x[1][0] / x[1][1])) 
+tfidf = tfidf.map(lambda x: (x[0], x[1][0] * x[1][1])) 
 
-for i in tfidf.collect():
+for i in tfidf.sortBy(lambda x: x[1]).collect():
     print(i)
 
 # TODO normalize tfidf
