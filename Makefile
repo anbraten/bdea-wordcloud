@@ -8,7 +8,7 @@ df: ## Run document frequency batch rdd job
 	spark-submit --master $(MASTER) --driver-class-path /poor-hdfs/postgresql-42.3.4.jar --jars /poor-hdfs/postgresql-42.3.4.jar spark/df.py
 
 tfidf: ## Run term frequency rdd job
-	spark-submit --master $(MASTER) --driver-class-path /poor-hdfs/postgresql-42.3.4.jar --jars /poor-hdfs/postgresql-42.3.4.jar spark/tfidf.py sample3.txt
+	spark-submit --master $(MASTER) --driver-class-path /poor-hdfs/postgresql-42.3.4.jar --jars /poor-hdfs/postgresql-42.3.4.jar spark/tfidf.py faust.txt
 
 docker-up: ## Start docker setup
 	$(DOCKER_COMPOSE) up -d
