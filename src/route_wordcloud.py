@@ -5,6 +5,7 @@ from PIL import Image
 from wordcloud import WordCloud, ImageColorGenerator
 import os
 import flask
+import codecs
 import os.path
 from werkzeug.utils import secure_filename
 
@@ -20,7 +21,8 @@ def wordcloud(filename: str):
 
     print("go")
 
-    text = open(textFile, encoding="utf-8").read()
+    text = codecs.open(textFile, 'r', encoding='utf-8',
+                       errors='ignore').read()
 
     # load image. This has been modified in gimp to be brighter and have more saturation.
     parrot_color = np.array(Image.open(os.path.join(basePath, 'parrot.jpg')))
@@ -39,7 +41,7 @@ def wordcloud(filename: str):
     # create wordcloud. A bit sluggish, you can subsample more strongly for quicker rendering
     # relative_scaling=0 means the frequencies in the data are reflected less
     # acurately but it makes a better picture
-    wc = WordCloud(max_words=2000, mask=parrot_mask, max_font_size=40, random_state=42, relative_scaling=0)
+    wc = WordCloud(max_words=2000, mask=parrot_mask, max_font_size=40, random_state=42, relative_scaling=0, min_word_length=4)
 
     # generate word cloud
     # wc.generate_from_frequencies() # TODO
