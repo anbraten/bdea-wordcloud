@@ -4,7 +4,9 @@ import flask
 def trigger_wordcount():
     print("trigger wordcount")
 
-    cmd = 'make wordcount'
+
+    cmd = 'make df'
+
     stream = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE)
     output = stream.stdout.decode('utf-8')
 

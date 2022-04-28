@@ -1,33 +1,9 @@
 <template>
-  <transition-group class="preview-list" name="list" tag="ul">
-    <li v-for="(file, index) in files3" :key="file.tmpId" class="item">
-      <div class="inner">
-        <span class="preview" :style="setBg(file)"></span>
-        <span class="actions">
-        <ui-fab
-            v-if="!file.uploaded"
-            icon="publish"
-            mini
-            @click="upload(file)"
-        ></ui-fab>
-        <ui-fab icon="delete" mini @click="remove(index)"></ui-fab>
-      </span>
-      </div>
-    </li>
-    <li v-if="files3.length < limit" key="add" class="item add-btn">
-      <div class="inner">
-        <ui-file accept="text/plain" multiple preview @change="onChange">
-          <ui-icon class="add-icon">add</ui-icon>
-        </ui-file>
-      </div>
-    </li>
-  </transition-group>
-  <p>
-    <ui-button raised @click="uploadAllFiles">
-      <ui-icon>publish</ui-icon>
-      Upload All
-    </ui-button>
-  </p>
+  <ui-file text="Add Files"  accept="text/plain" multiple @change="change"></ui-file>
+  <div style="height: 50px;">
+    <div style="height: 20px"></div>
+    <p style="margin: 0px" v-if="showUploaded">Uploaded</p>
+  </div>
 </template>
 
 <script>
@@ -37,25 +13,19 @@ export default {
   name: 'FileUpload',
   data() {
     return {
+      balmUI: useEvent(),
       files: [],
-      files3: [],
-      limit: 5,
+      showUploaded: false,
       postUrl: 'http://localhost:5000/api/uploads'
     };
   },
   methods: {
-    setBg({ previewSrc }) {
-      return previewSrc ? { backgroundImage: `url(${previewSrc})` } : {};
-    },
-    onChange(files) {
-      if (files.length > this.limit - this.files3.length) {
-        this.$toast(`Image Limit: ${this.limit}`);
-      } else {
-        files.forEach((file) => {
-          file.uploaded = false;
-          this.files3.push(file);
-        });
-      }
+    async change(event){
+      this.showUploaded = false
+      this.balmUI.onChange('files', event)
+      for(const file of this.files) { await this.upload(file)}
+      this.showUploaded =  true
+      window.location.reload()
     },
     async upload(file) {
       try {
@@ -71,18 +41,6 @@ export default {
       } catch (e) {
         // your code
       }
-    },
-    uploadAllFiles() {
-      if (this.files3.length) {
-        this.files3.forEach((file) => {
-          this.upload(file);
-        });
-      } else {
-        this.$toast('No files');
-      }
-    },
-    remove(index) {
-      this.files3.splice(index, 1);
     }
   }
 };

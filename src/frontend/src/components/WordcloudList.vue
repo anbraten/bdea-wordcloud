@@ -7,8 +7,9 @@
     :key="index"
     outlined
     style="width: 300px; margin-right: 20px; margin-bottom: 20px">
-
     <ui-image-item
+        style="cursor: pointer"
+        @click="openImg(name)"
         :bg-image="`http://localhost:5000/api/wordcloud/${name}`"
     >
       <ui-image-text v-if="labelsType">{{ name }}</ui-image-text>
@@ -30,6 +31,11 @@ export default {
       labelsType: 1,
       files: []
     };
+  },
+  methods: {
+    openImg(name) {
+      window.open(`http://localhost:5000/api/wordcloud/${name}`, '_blank');
+    }
   },
 }
 </script>

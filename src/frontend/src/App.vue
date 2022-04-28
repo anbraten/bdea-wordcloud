@@ -1,5 +1,12 @@
 <template>
-  <FileUpload></FileUpload>
+  <div class="topbar">
+    <div>
+      <FileUpload></FileUpload>
+    </div>
+    <div>
+      <button style="background-color: green" @click="runBatchjob()" class="mdc-button mdc-button--unelevated">Trigger Batchjob</button>
+    </div>
+  </div>
   <WordcloudList></WordcloudList>
 </template>
 
@@ -12,6 +19,11 @@ export default {
   components: {
     FileUpload,
     WordcloudList,
+  },
+  methods: {
+    runBatchjob(){
+      fetch('http://localhost:5000/api/wordcount/trigger')
+    }
   }
 }
 
@@ -25,5 +37,10 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+
+.topbar{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 </style>
