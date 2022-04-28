@@ -2,6 +2,7 @@ from pyspark.sql import SparkSession
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType
 import re
 import sys
+import math
 
 basePath = 'file:///poor-hdfs/'
 
@@ -38,14 +39,16 @@ df = spark.read \
     .option("password", "passw0rd") \
     .load()
 
-tfidf = tf.join(df.rdd).map(lambda x: (x[0], x[1][0] / x[1][1])) 
+# left join and set df to 1 if it is None
+tfidf = tf.leftOuterJoin(df.rdd).map(lambda x: (x[0], (x[1][0], x[1][1] or 1)))
+
+tfidf = tfidf.map(lambda x: (x[0], x[1][0] / x[1][1])) 
 
 # TODO normalize tfidf
+tfidf = tfidf.map(lambda x: (x[0], math.floor(x[1] * 100))) 
 
 for i in tfidf.collect():
     print(i)
-
-# sortedWordCounts = wordCounts.sortBy(lambda x: x[1])
 
 schema = StructType([
         StructField('word', StringType(), False),
