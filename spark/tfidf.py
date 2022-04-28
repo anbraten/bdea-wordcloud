@@ -17,6 +17,8 @@ filename=sys.argv[1]
 
 txt = sc.textFile(basePath + 'uploads/' + filename)
 
+# SOURCE: https://towardsdatascience.com/tf-idf-calculation-using-map-reduce-algorithm-in-pyspark-e89b5758e64c
+
 # ['line one', ...] => [('word one', 1), ('word two', 1), ...]
 words = txt.flatMap(lambda line: re.split('\W+', line.lower()))
 
@@ -26,21 +28,31 @@ words = words.filter(lambda x: len(x) > 3)
 # ['word one', 'word one', ...] => [('word one', 1), ('word one', 1), ...] => [('word one', 2)]
 tf = words.map(lambda word: (word, 1)).reduceByKey(lambda a,b:a +b)
 
-# TODO load df from database and calc tfidf
+print("%i words are in the text file" % (tf.count()))
 
-for i in tf.collect():
+df = spark.read \
+    .format("jdbc") \
+    .option("url", "jdbc:postgresql://postgres:5432/postgres") \
+    .option("dbtable", "df") \
+    .option("user", "postgres") \
+    .option("password", "passw0rd") \
+    .load()
+
+tfidf = tf.join(df.rdd).map(lambda x: (x[0], x[1][0] / x[1][1])) 
+
+# TODO normalize tfidf
+
+for i in tfidf.collect():
     print(i)
 
 # sortedWordCounts = wordCounts.sortBy(lambda x: x[1])
 
 schema = StructType([
         StructField('word', StringType(), False),
-        StructField('amount', IntegerType(), False),
+        StructField('tfidf', IntegerType(), False),
     ])
-
-df = spark.createDataFrame(tf, schema=schema)
-
-df.write \
+tfidf = spark.createDataFrame(tfidf, schema=schema)
+tfidf.write \
     .format("jdbc") \
     .option("url", "jdbc:postgresql://postgres:5432/postgres") \
     .option("dbtable", "tfidf") \
@@ -49,7 +61,7 @@ df.write \
     .option("truncate", True) \
     .save(mode="overwrite")
 
-print("%i words have been saved to database" % (df.count()))
+print("%i words have been saved to database" % (tfidf.count()))
 
 sc.stop()
 spark.stop()
