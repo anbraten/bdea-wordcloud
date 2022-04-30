@@ -7,6 +7,10 @@
       <button style="background-color: green" @click="runBatchjob()" class="mdc-button mdc-button--unelevated">Trigger Batchjob</button>
     </div>
   </div>
+  <div>
+    <img style="cursor: pointer"
+         @click="openCumulativeWordCloudImg" src="/api/cumulative-wordcloud/" alt="Aggregate Wordcloud" class="cumulative-wordcloud">
+  </div>
   <WordcloudList></WordcloudList>
 </template>
 
@@ -23,6 +27,9 @@ export default {
   methods: {
     runBatchjob(){
       fetch('http://localhost:5000/api/wordcount/trigger')
+    },
+    openCumulativeWordCloudImg(name) {
+      window.open(`http://localhost:5000/api/wordcloud/cumulative-wordcloud`, '_blank');
     }
   }
 }
@@ -42,5 +49,11 @@ export default {
 .topbar{
   display: grid;
   grid-template-columns: 1fr 1fr;
+}
+
+.cumulative-wordcloud{
+  object-fit: cover;
+  width: 100%;
+  height: 250px;
 }
 </style>

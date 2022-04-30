@@ -63,3 +63,6 @@ def wordcloud(filename: str):
     f.close()
 
     return flask.Response(svg, mimetype='image/svg+xml')
+
+def cumulative_wordcloud():
+    return flask.Response(500)
