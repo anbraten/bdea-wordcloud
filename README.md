@@ -32,7 +32,7 @@ npm run build # builds frontend for production in src/templates
 ``` 
 
 ## TODO
-- [ ] add frontend
+- [x] add frontend
 - [x] add backend
 - [x] add text file upload
 - [x] generate wordcloud
