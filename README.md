@@ -24,12 +24,12 @@ make wordcount # run batch job in spark
 make start # start webserver
 ``` 
 
-Inside the src/frontend/:
+Inside `frontend/`:
 ```bash
 npm install # install dependencies 
-npm run serve  # starts development server
+npm run dev  # starts development server
 npm run build # builds frontend for production in src/templates
-``` 
+```
 
 ## TODO
 - [x] add frontend
@@ -37,5 +37,5 @@ npm run build # builds frontend for production in src/templates
 - [x] add text file upload
 - [x] generate wordcloud
 - [x] embed wordcloud in frontend
-- [ ] add database to store document-frequiencies of words
-- [ ] add manual trigger for batch job to update document-frequiencies of words
+- [x] add database to store document-frequiencies of words
+- [x] add manual trigger for batch job to update document-frequiencies of words

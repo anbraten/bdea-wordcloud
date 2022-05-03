@@ -11,6 +11,9 @@ df: ## Run document frequency batch rdd job
 tfidf: ## Run term frequency rdd job
 	spark-submit --master $(MASTER) --driver-class-path /poor-hdfs/postgresql-42.3.4.jar --jars /poor-hdfs/postgresql-42.3.4.jar spark/tfidf.py $(WORDCLOUD_TXT_FILE)
 
+tfidf-cumulative: ## Run cumulative term frequency rdd job
+	spark-submit --master $(MASTER) --driver-class-path /poor-hdfs/postgresql-42.3.4.jar --jars /poor-hdfs/postgresql-42.3.4.jar spark/tfidf-cumulative.py
+
 docker-up: ## Start docker setup
 	$(DOCKER_COMPOSE) up -d
 

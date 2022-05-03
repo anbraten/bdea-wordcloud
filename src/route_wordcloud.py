@@ -28,4 +28,17 @@ def wordcloud(filename: str):
     return flask.send_file(svgFile)
 
 def cumulative_wordcloud():
-    return flask.Response(500)
+    svgFile = os.path.join(basePath, 'wordclouds', "cumulative.svg")
+
+    if os.path.exists(svgFile):
+        return flask.send_file(svgFile)
+
+    print("cumulative worcloud generation started ...")
+
+    cmd = 'make tfidf-cumulative'
+    stream = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE)
+    output = stream.stdout.decode('utf-8')
+
+    print("cumulative worcloud done")
+
+    return flask.send_file(svgFile)
