@@ -16,7 +16,7 @@ export default {
       balmUI: useEvent(),
       files: [],
       showUploaded: false,
-      postUrl: 'http://localhost:5000/api/uploads'
+      postUrl: '/api/uploads'
     };
   },
   methods: {
@@ -39,7 +39,7 @@ export default {
         file.uploaded = true;
         console.log(`${file.name} is uploaded`);
       } catch (e) {
-        // your code
+        console.error(e);
       }
     }
   }

@@ -1,6 +1,5 @@
 from pyspark.sql import SparkSession
 import re
-import sys
 import math
 import os.path
 from lib.wordcloud import generate_wordcloud
@@ -30,8 +29,6 @@ words = words.filter(lambda x: len(x) > 3)
 # ['word one', 'word one', ...] => [('word one', 1), ('word one', 1), ...] => [('word one', 2)]
 tf = words.map(lambda word: (word, 1)).reduceByKey(lambda a,b:a +b)
 
-print("%i words are in the text file" % (tf.count()))
-
 df = spark.read \
     .format("jdbc") \
     .option("url", "jdbc:postgresql://postgres:5432/postgres") \
@@ -42,13 +39,7 @@ df = spark.read \
 
 # left join and set df to 1 if it is None
 tfidf = tf.leftOuterJoin(df.rdd).map(lambda x: (x[0], (x[1][0], x[1][1] or 1)))
-
 tfidf = tfidf.map(lambda x: (x[0], x[1][0] * x[1][1])) 
-
-for i in tfidf.sortBy(lambda x: x[1]).collect():
-    print(i)
-
-# TODO normalize tfidf
 tfidf = tfidf.map(lambda x: (x[0], math.floor(x[1])))
 
 generate_wordcloud(svgFile, dict(tfidf.collect()))

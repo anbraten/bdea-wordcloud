@@ -1,7 +1,6 @@
 import os
 import flask
 import os.path
-import subprocess
 from werkzeug.utils import secure_filename
 
 basePath = os.path.join(os.getcwd(), 'data')
@@ -19,9 +18,14 @@ def wordcloud(filename: str):
 
     print("worcloud generation started ...")
 
-    cmd = 'WORDCLOUD_TXT_FILE='+filename+' make tfidf'
-    stream = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE)
-    output = stream.stdout.decode('utf-8')
+    # create empty svg file to prevent parallel execution
+    f = open(svgFile, "w")
+    f.write("")
+    f.close()
+
+    cmd = 'make tfidf WORDCLOUD_TXT_FILE='+filename
+    print(cmd)
+    os.system(cmd)
 
     print("worcloud done")
 
@@ -35,9 +39,13 @@ def cumulative_wordcloud():
 
     print("cumulative worcloud generation started ...")
 
+    # create empty svg file to prevent parallel execution
+    f = open(svgFile, "w")
+    f.write("")
+    f.close()
+    
     cmd = 'make tfidf-cumulative'
-    stream = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE)
-    output = stream.stdout.decode('utf-8')
+    os.system(cmd)
 
     print("cumulative worcloud done")
 

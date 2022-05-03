@@ -8,10 +8,11 @@
         style="background-color: green"
         @click="runBatchjob"
         class="mdc-button mdc-button--unelevated"
+        :disabled="triggerDisabled"
       >Trigger Batchjob</button>
     </div>
   </div>
-  <ui-image-list :text-protection="labelsType === 2" class="img-list">
+  <div class="img">
     <ui-card
       class="img-card"
       outlined
@@ -21,19 +22,23 @@
         style="cursor: pointer"
         @click="openCumulativeWordCloudImg"
         alt="Aggregate Wordcloud"
-        :bg-image="`/api/cumulative-wordcloud/`"
-        class="cumulative-wordcloud"
+        bg-image="/api/cumulative-wordcloud"
       >
         <ui-image-text>cumulative</ui-image-text>
       </ui-image-item>
     </ui-card>
-    <WordcloudList />
-  </ui-image-list>
+
+    <div class="imgs">
+      <WordcloudList />
+    </div>
+  </div>
 </template>
 
 <script>
 import WordcloudList from "~/components/WordcloudList.vue";
 import FileUpload from "~/components/FileUpload.vue";
+
+import { ref } from 'vue'
 
 export default {
   name: 'App',
@@ -41,14 +46,23 @@ export default {
     FileUpload,
     WordcloudList,
   },
-  methods: {
-    async runBatchjob() {
-      await fetch('/api/wordcount/trigger')
-      console.log('done')
+  setup() {
+    const triggerDisabled = ref(false);
+
+    async function runBatchjob() {
+      triggerDisabled.value = true
+      await fetch('/api/wordcount-trigger')
       location.reload()
-    },
-    openCumulativeWordCloudImg() {
+    }
+
+    function openCumulativeWordCloudImg() {
       window.open(`/api/cumulative-wordcloud`, '_blank');
+    }
+
+    return {
+      runBatchjob,
+      openCumulativeWordCloudImg,
+      triggerDisabled
     }
   }
 }
@@ -67,5 +81,21 @@ export default {
 .topbar {
   display: grid;
   grid-template-columns: 1fr 1fr;
+}
+
+.img {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.img-card {
+  padding: 20px;
+}
+
+.imgs {
+  display: flex;
+  width: 100%;
 }
 </style>

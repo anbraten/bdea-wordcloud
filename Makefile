@@ -26,6 +26,9 @@ postgres:
 start: ## Start the webserver
 	FLASK_APP=src/server FLASK_ENV=development flask run --host=0.0.0.0
 
+start-frontend: ## Start frontend
+	cd frontend && npm i && npm run dev
+
 help: ## Display this help screen
 	@grep -h -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
