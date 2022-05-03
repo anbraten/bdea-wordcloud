@@ -1,10 +1,9 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.types import StructType, StructField, StringType, IntegerType
 import re
 import sys
 import math
-
-basePath = 'file:///poor-hdfs/'
+import os.path
+from lib.wordcloud import generate_wordcloud
 
 spark = SparkSession.builder \
       .appName("wordcloud") \
@@ -14,9 +13,12 @@ spark = SparkSession.builder \
 sc = spark.sparkContext
 sc.setLogLevel("ERROR")
 
+basePath = '/poor-hdfs/'
 filename=sys.argv[1]
+filepath=os.path.join(basePath, 'uploads', filename)
+svgFile=os.path.join(basePath, 'wordclouds', filename.replace('.txt', '.svg'))
 
-txt = sc.textFile(basePath + 'uploads/' + filename)
+txt = sc.textFile('file://'+filepath)
 
 # SOURCE: https://towardsdatascience.com/tf-idf-calculation-using-map-reduce-algorithm-in-pyspark-e89b5758e64c
 
@@ -50,21 +52,9 @@ for i in tfidf.sortBy(lambda x: x[1]).collect():
 # TODO normalize tfidf
 tfidf = tfidf.map(lambda x: (x[0], math.floor(x[1])))
 
-schema = StructType([
-        StructField('word', StringType(), False),
-        StructField('tfidf', IntegerType(), False),
-    ])
-tfidf = spark.createDataFrame(tfidf, schema=schema)
-tfidf.write \
-    .format("jdbc") \
-    .option("url", "jdbc:postgresql://postgres:5432/postgres") \
-    .option("dbtable", "tfidf") \
-    .option("user", "postgres") \
-    .option("password", "passw0rd") \
-    .option("truncate", True) \
-    .save(mode="overwrite")
+generate_wordcloud(svgFile, dict(tfidf.collect()))
 
-print("%i words have been saved to database" % (tfidf.count()))
+print("%i words have been saved to wordcloud" % (tfidf.count()))
 
 sc.stop()
 spark.stop()

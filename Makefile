@@ -1,5 +1,6 @@
 MASTER := spark://spark:7077
 DOCKER_COMPOSE := docker-compose -f .devcontainer/docker-compose.yml
+WORDCLOUD_TXT_FILE := faust.txt
 
 .PHONY: all test coverage
 all: get build install
@@ -8,7 +9,7 @@ df: ## Run document frequency batch rdd job
 	spark-submit --master $(MASTER) --driver-class-path /poor-hdfs/postgresql-42.3.4.jar --jars /poor-hdfs/postgresql-42.3.4.jar spark/df.py
 
 tfidf: ## Run term frequency rdd job
-	spark-submit --master $(MASTER) --driver-class-path /poor-hdfs/postgresql-42.3.4.jar --jars /poor-hdfs/postgresql-42.3.4.jar spark/tfidf.py faust.txt
+	spark-submit --master $(MASTER) --driver-class-path /poor-hdfs/postgresql-42.3.4.jar --jars /poor-hdfs/postgresql-42.3.4.jar spark/tfidf.py $(WORDCLOUD_TXT_FILE)
 
 docker-up: ## Start docker setup
 	$(DOCKER_COMPOSE) up -d

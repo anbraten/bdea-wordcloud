@@ -7,7 +7,6 @@ import route_wordcount
 import route_upload
 import config
 
-
 app = Flask(__name__, static_folder='./templates', static_url_path='')
 
 CORS(app)
