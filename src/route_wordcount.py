@@ -11,4 +11,9 @@ def trigger_wordcount():
 
     print("wordcount done")
 
-    return flask.Response(output, mimetype='txt')
+    cmd = 'make clean'
+
+    stream = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE)
+    output2 = stream.stdout.decode('utf-8')
+
+    return flask.Response(output+output2, mimetype='txt')
