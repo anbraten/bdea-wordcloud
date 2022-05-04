@@ -1,9 +1,0 @@
-FROM node:16
-
-WORKDIR /workspace/frontend/
-
-COPY ./frontend/package.json ./package.json
-
-RUN cd /workspace/frontend  && npm install
-
-EXPOSE 3000

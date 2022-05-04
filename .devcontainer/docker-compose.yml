@@ -5,26 +5,15 @@ services:
     build:
       context: ..
       dockerfile: .devcontainer/Dockerfile
-    working_dir: /workspace/src
-    command: python server.py
+    working_dir: /workspace
+    entrypoint: sleep infinity
     volumes:
       - ../:/workspace
       - ../data:/poor-hdfs
       - ~/.ssh:/root/.ssh:ro
     ports:
+      - '3000:3000'
       - '5000:5000'
-
-  frontend:
-    build:
-      context: ..
-      dockerfile: .devcontainer/Dockerfile.web
-    working_dir: /workspace/frontend
-    command: npm run dev
-    volumes:
-      - ../frontend:/workspace/frontend
-      - /workspace/frontend/node_modules
-    ports:
-      - 3000:3000
 
   spark:
     build:
