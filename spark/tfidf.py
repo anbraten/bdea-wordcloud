@@ -42,7 +42,7 @@ df = spark.read \
 # left join and set df to 1 if it is None
 tfidf = tf.leftOuterJoin(df.rdd).map(lambda x: (x[0], (x[1][0], x[1][1] or 1)))
 tfidf = tfidf.map(lambda x: (x[0], x[1][0] * x[1][1])) 
-tfidf = tfidf.map(lambda x: (x[0], math.floor(x[1])))
+tfidf = tfidf.map(lambda x: (x[0], math.ceil(x[1])))
 
 generate_wordcloud(svgFile, dict(tfidf.collect()))
 
