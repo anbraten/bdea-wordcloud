@@ -1,6 +1,6 @@
 # bdea-workcloud
 
-This project creates word-clouds based on tfidf for files which you can upload
+This project creates word-clouds based on a tfidf calculation for txt-files which you can upload via a web-UI by using a spark cluster with pyspark.
 
 ## Project
 
