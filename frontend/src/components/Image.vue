@@ -8,14 +8,24 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue';
+import { defineProps, onMounted, ref } from 'vue';
 
 const props = defineProps({
   name: String,
   url: String,
 });
 
+const imgUrl = ref('/loading.gif');
+
 function openImg() {
   window.open(props.url, '_blank');
 }
+
+onMounted(async () => {
+  // try to load file which will be blocked if the image need to be generated first
+  await fetch(props.url);
+
+  // update url to use generated image
+  imgUrl.value = props.url;
+});
 </script>
