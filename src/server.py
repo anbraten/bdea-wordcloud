@@ -1,11 +1,9 @@
-import os
-from flask import Flask, render_template, redirect
+from flask import Flask, redirect
 from flask_cors import CORS
 
 import route_wordcloud
 import route_wordcount
 import route_upload
-import config
 
 app = Flask(__name__, static_folder='./templates', static_url_path='')
 
