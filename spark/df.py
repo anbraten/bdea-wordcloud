@@ -4,13 +4,13 @@ import re
 import os
 import math
 
-basePath = 'file:///poor-hdfs/'
+basePath = 'file:///fake-hdfs/'
 
 spark = SparkSession.builder \
       .appName("wordcloud") \
       .master("spark://spark:7077") \
       .getOrCreate()
-      
+
 sc = spark.sparkContext
 sc.setLogLevel("ERROR")
 

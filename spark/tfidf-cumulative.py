@@ -9,11 +9,11 @@ spark = SparkSession.builder \
       .appName("wordcloud") \
       .master("spark://spark:7077") \
       .getOrCreate()
-      
+
 sc = spark.sparkContext
 sc.setLogLevel("ERROR")
 
-basePath = '/poor-hdfs/'
+basePath = '/fake-hdfs/'
 filepath=os.path.join(basePath, 'uploads', '*.txt')
 svgFile=os.path.join(basePath, 'wordclouds', 'cumulative.svg')
 
@@ -34,7 +34,7 @@ df = get_df(spark)
 
 # left join and set df to 1 if it is None
 tfidf = tf.leftOuterJoin(df).map(lambda x: (x[0], (x[1][0], x[1][1] or 1)))
-tfidf = tfidf.map(lambda x: (x[0], x[1][0] * x[1][1])) 
+tfidf = tfidf.map(lambda x: (x[0], x[1][0] * x[1][1]))
 tfidf = tfidf.map(lambda x: (x[0], math.ceil(x[1])))
 
 generate_wordcloud(svgFile, dict(tfidf.collect()))

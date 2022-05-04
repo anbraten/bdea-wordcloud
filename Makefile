@@ -6,13 +6,13 @@ WORDCLOUD_TXT_FILE := faust.txt
 all: get build install
 
 df: ## Run document frequency batch rdd job
-	spark-submit --master $(MASTER) --driver-class-path /poor-hdfs/postgresql-42.3.4.jar --jars /poor-hdfs/postgresql-42.3.4.jar spark/df.py
+	spark-submit --master $(MASTER) --driver-class-path /fake-hdfs/postgresql-42.3.4.jar --jars /fake-hdfs/postgresql-42.3.4.jar spark/df.py
 
 tfidf: ## Run term frequency rdd job
-	spark-submit --master $(MASTER) --driver-class-path /poor-hdfs/postgresql-42.3.4.jar --jars /poor-hdfs/postgresql-42.3.4.jar spark/tfidf.py $(WORDCLOUD_TXT_FILE)
+	spark-submit --master $(MASTER) --driver-class-path /fake-hdfs/postgresql-42.3.4.jar --jars /fake-hdfs/postgresql-42.3.4.jar spark/tfidf.py $(WORDCLOUD_TXT_FILE)
 
 tfidf-cumulative: ## Run cumulative term frequency rdd job
-	spark-submit --master $(MASTER) --driver-class-path /poor-hdfs/postgresql-42.3.4.jar --jars /poor-hdfs/postgresql-42.3.4.jar spark/tfidf-cumulative.py
+	spark-submit --master $(MASTER) --driver-class-path /fake-hdfs/postgresql-42.3.4.jar --jars /fake-hdfs/postgresql-42.3.4.jar spark/tfidf-cumulative.py
 
 docker-up: ## Start docker setup
 	$(DOCKER_COMPOSE) up -d
@@ -24,7 +24,7 @@ postgres:
 	$(DOCKER_COMPOSE) exec postgres psql -U postgres
 
 start: ## Start the webserver
-	FLASK_APP=src/server FLASK_ENV=development flask run --host=0.0.0.0
+	FLASK_APP=backend/server FLASK_ENV=development flask run --host=0.0.0.0
 
 docker-start: ## Start the webserver inside docker
 	$(DOCKER_COMPOSE) exec app make start
@@ -39,4 +39,4 @@ help: ## Display this help screen
 	@grep -h -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 clean: ## Remove all generated wordcloud files
-	@rm /poor-hdfs/wordclouds/*.svg
+	@rm /fake-hdfs/wordclouds/*.svg
