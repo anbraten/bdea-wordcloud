@@ -15,7 +15,7 @@
 
     <div class="flex flex-col m-4 justify-center content-start">
       <div class="mb-4 flex justify-center">
-        <Image name="Aggregate Wordcloud" url="/api/cumulative-wordcloud" />
+        <Image name="Aggregated Wordcloud" url="/api/cumulative-wordcloud" />
       </div>
 
       <div class="flex flex-wrap gap-4 justify-center">
