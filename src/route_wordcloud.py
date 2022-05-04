@@ -57,11 +57,6 @@ def cumulative_wordcloud():
     cumulative_wordcloud_lock.acquire()
 
     print("cumulative worcloud generation started ...")
-
-    # create empty svg file to prevent parallel execution
-    f = open(svg_file, "w")
-    f.write("")
-    f.close()
     
     cmd = 'make tfidf-cumulative'
     os.system(cmd)

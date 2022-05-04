@@ -3,6 +3,7 @@ import re
 import math
 import os.path
 from lib.wordcloud import generate_wordcloud
+from lib.df import get_df
 
 spark = SparkSession.builder \
       .appName("wordcloud") \
@@ -29,16 +30,10 @@ words = words.filter(lambda x: len(x) > 3)
 # ['word one', 'word one', ...] => [('word one', 1), ('word one', 1), ...] => [('word one', 2)]
 tf = words.map(lambda word: (word, 1)).reduceByKey(lambda a,b:a +b)
 
-df = spark.read \
-    .format("jdbc") \
-    .option("url", "jdbc:postgresql://postgres:5432/postgres") \
-    .option("dbtable", "df") \
-    .option("user", "postgres") \
-    .option("password", "passw0rd") \
-    .load()
+df = get_df(spark)
 
 # left join and set df to 1 if it is None
-tfidf = tf.leftOuterJoin(df.rdd).map(lambda x: (x[0], (x[1][0], x[1][1] or 1)))
+tfidf = tf.leftOuterJoin(df).map(lambda x: (x[0], (x[1][0], x[1][1] or 1)))
 tfidf = tfidf.map(lambda x: (x[0], x[1][0] * x[1][1])) 
 tfidf = tfidf.map(lambda x: (x[0], math.ceil(x[1])))
 
