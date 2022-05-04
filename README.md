@@ -1,5 +1,10 @@
 # bdea-workcloud
 
+##Team
+* 2211663 - Anton Bracke
+* 2210897 - Jan Mayer
+* 1911034 - Julian Becker
+
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/anbraten/bdea-wordcloud)
 
 https://user-images.githubusercontent.com/6918444/166653958-757f2d0c-8b0a-4a5c-8674-830b359847ef.mp4
