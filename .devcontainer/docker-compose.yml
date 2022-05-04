@@ -12,6 +12,7 @@ services:
       - ../data:/poor-hdfs
       - ~/.ssh:/root/.ssh:ro
     ports:
+      - '3000:3000'
       - '5000:5000'
 
   spark:

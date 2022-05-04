@@ -32,6 +32,9 @@ docker-start: ## Start the webserver inside docker
 start-frontend: ## Start frontend
 	cd frontend && npm i && npm run dev
 
+docker-start-frontend: ## Start frontend inside docker
+	$(DOCKER_COMPOSE) exec app make start-frontend
+
 help: ## Display this help screen
 	@grep -h -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
