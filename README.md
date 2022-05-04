@@ -1,6 +1,6 @@
 # bdea-workcloud
 
-##Team
+## Team
 * 2211663 - Anton Bracke
 * 2210897 - Jan Mayer
 * 1911034 - Julian Becker
