@@ -1,7 +1,11 @@
 import subprocess
 import flask
+import threading
+
+lock = threading.Lock()
 
 def trigger_wordcount():
+    lock.acquire()
     print("trigger wordcount")
 
     cmd = 'make df'
@@ -15,5 +19,7 @@ def trigger_wordcount():
 
     stream = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE)
     output2 = stream.stdout.decode('utf-8')
+
+    lock.release()
 
     return flask.Response(output+output2, mimetype='txt')
