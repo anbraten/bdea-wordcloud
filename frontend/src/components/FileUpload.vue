@@ -6,14 +6,12 @@
 import { ref } from 'vue';
 import { useEvent } from 'balm-ui';
 
-const balmUI = useEvent();
-const files = ref([]);
+const balmUI = useEvent()
+const files = ref([])
 
 async function change(event) {
   balmUI.onChange('files', event);
-  for await (const file of files.value) {
-    await upload(file);
-  }
+  for await (const file of files.value) { await upload(file) }
   location.reload();
 }
 
@@ -24,7 +22,7 @@ async function upload(file) {
 
     await fetch('/api/uploads', {
       method: 'POST',
-      body: data,
+      body: data
     });
 
     console.log(`${file.name} has been uploaded`);
