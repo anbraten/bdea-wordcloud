@@ -1,71 +1,55 @@
 <template>
-  <div class="topbar">
-    <div>
-      <FileUpload />
+  <div>
+    <div class="topbar">
+      <div>
+        <FileUpload />
+      </div>
+      <div>
+        <button
+          @click="runBatchjob"
+          class="mdc-button mdc-button--unelevated !bg-green-500"
+          :disabled="triggerDisabled"
+        >Trigger DF-Calcuation Batchjob</button>
+      </div>
     </div>
-    <div>
-      <button
-        style="background-color: green"
-        @click="runBatchjob"
-        class="mdc-button mdc-button--unelevated"
-        :disabled="triggerDisabled"
-      >Trigger Batchjob</button>
-    </div>
-  </div>
-  <div class="img">
-    <ui-card
-      class="img-card"
-      outlined
-      style="width: 300px; margin-right: 20px; margin-bottom: 20px"
-    >
-      <ui-image-item
-        style="cursor: pointer"
-        @click="openCumulativeWordCloudImg"
-        alt="Aggregate Wordcloud"
-        bg-image="/api/cumulative-wordcloud"
-      >
-        <ui-image-text>cumulative</ui-image-text>
-      </ui-image-item>
-    </ui-card>
 
-    <div class="imgs">
-      <WordcloudList />
+    <div class="flex flex-col m-4 justify-center content-start">
+      <div class="mb-4 flex justify-center">
+        <Image name="Aggregate Wordcloud" url="/api/cumulative-wordcloud" />
+      </div>
+
+      <div class="flex flex-wrap gap-4 justify-center">
+        <Image
+          v-for="(name, index) in files"
+          :key="index"
+          :name="name"
+          :url="`/api/wordcloud/${name}`"
+        />
+      </div>
     </div>
   </div>
 </template>
 
-<script>
-import WordcloudList from "~/components/WordcloudList.vue";
-import FileUpload from "~/components/FileUpload.vue";
+<script setup>
+import FileUpload from '~/components/FileUpload.vue';
+import Image from '~/components/Image.vue';
 
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue';
 
-export default {
-  name: 'App',
-  components: {
-    FileUpload,
-    WordcloudList,
-  },
-  setup() {
-    const triggerDisabled = ref(false);
+const triggerDisabled = ref(false);
 
-    async function runBatchjob() {
-      triggerDisabled.value = true
-      await fetch('/api/wordcount-trigger')
-      location.reload()
-    }
-
-    function openCumulativeWordCloudImg() {
-      window.open(`/api/cumulative-wordcloud`, '_blank');
-    }
-
-    return {
-      runBatchjob,
-      openCumulativeWordCloudImg,
-      triggerDisabled
-    }
-  }
+async function runBatchjob() {
+  triggerDisabled.value = true;
+  await fetch('/api/wordcount-trigger');
+  location.reload();
 }
+
+const files = ref([]);
+
+onMounted(async () => {
+  const res = await fetch('/api/filenames');
+  files.value = await res.json();
+});
 </script>
 
 <style>
@@ -81,21 +65,5 @@ export default {
 .topbar {
   display: grid;
   grid-template-columns: 1fr 1fr;
-}
-
-.img {
-  display: flex;
-  flex-flow: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.img-card {
-  padding: 20px;
-}
-
-.imgs {
-  display: flex;
-  width: 100%;
 }
 </style>

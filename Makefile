@@ -26,6 +26,9 @@ postgres:
 start: ## Start the webserver
 	FLASK_APP=src/server FLASK_ENV=development flask run --host=0.0.0.0
 
+docker-start: ## Start the webserver inside docker
+	$(DOCKER_COMPOSE) exec app make start
+
 start-frontend: ## Start frontend
 	cd frontend && npm i && npm run dev
 
