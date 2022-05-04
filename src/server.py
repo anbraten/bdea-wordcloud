@@ -24,4 +24,4 @@ app.add_url_rule('/api/cumulative-wordcloud', view_func=route_wordcloud.cumulati
 app.add_url_rule('/api/wordcount-trigger', view_func=route_wordcount.trigger_wordcount)
 
 if __name__ == '__main__':
-    app.run(debug=True, use_reloader=True)
+    app.run(debug=True, use_reloader=True, host='0.0.0.0')

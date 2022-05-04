@@ -7,9 +7,3 @@ WORKDIR /workspace
 COPY ./requirements.txt /workspace/
 
 RUN pip install -r ./requirements.txt
-
-ENV PATH="/root/.volta/bin:${PATH}"
-
-# install node
-RUN VOLTA_HOME=/bin curl https://get.volta.sh | bash \
-    && volta install node
