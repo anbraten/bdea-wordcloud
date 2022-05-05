@@ -12,12 +12,16 @@ This project creates word-clouds based on a tfidf calculation for txt-files whic
 
 ### Documentation
 
-- [docs/bdea_wordcloud.pdf](docs/bdea_wordcloud.pdf)
-- [docs/demo_video.mp4](docs/demo_video.mp4)
+[docs/bdea_wordcloud.pdf](docs/bdea_wordcloud.pdf)
 
-## Demo
+[![YouTube Demo Video](https://img.youtube.com/vi/Z8s7Z4lzZ6U/0.jpg)](https://youtu.be/Z8s7Z4lzZ6U)
 
-https://user-images.githubusercontent.com/6918444/166653958-757f2d0c-8b0a-4a5c-8674-830b359847ef.mp4
+## Content
+
+- Spark jobs: [spark/](spark/)
+- Frontend: [frontend/](frontend/)
+- Backend: [backend/](backend/)
+- Fake HDFS: [fake-hdfs/](fake-hdfs/)
 
 ## Development
 
@@ -35,7 +39,7 @@ Continue with [Start backend / frontend](#start-backend--frontend)
 make docker-up
 ```
 
-Open bash inside the app container with: `make docker-bash`
+Open a bash inside the app container with: `make docker-bash`
 
 Continue with [Start backend / frontend](#start-backend--frontend)
 
