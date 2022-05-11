@@ -9,7 +9,7 @@ services:
     entrypoint: sleep infinity
     volumes:
       - ../:/workspace
-      - ../data:/fake-hdfs
+      - ../fake-hdfs:/fake-hdfs
       - ~/.ssh:/root/.ssh:ro
     ports:
       - '3000:3000'
@@ -42,7 +42,7 @@ services:
       - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
       - SPARK_SSL_ENABLED=no
     volumes:
-      - ../data:/fake-hdfs
+      - ../fake-hdfs:/fake-hdfs
 
   spark-worker-2:
     build:
@@ -58,7 +58,7 @@ services:
       - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
       - SPARK_SSL_ENABLED=no
     volumes:
-      - ../data:/fake-hdfs
+      - ../fake-hdfs:/fake-hdfs
 
   postgres:
     image: postgres
