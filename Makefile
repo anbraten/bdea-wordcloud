@@ -30,7 +30,7 @@ docker-start: ## Start the webserver inside docker
 	$(DOCKER_COMPOSE) exec app make start
 
 start-frontend: ## Start frontend
-	cd frontend && npm i && npm run dev
+	cd frontend && npm i && yarn dev
 
 docker-start-frontend: ## Start frontend inside docker
 	$(DOCKER_COMPOSE) exec app make start-frontend

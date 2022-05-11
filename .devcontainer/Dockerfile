@@ -12,4 +12,5 @@ ENV PATH="/root/.volta/bin:${PATH}"
 
 # install node
 RUN VOLTA_HOME=/bin curl https://get.volta.sh | bash \
-    && volta install node
+    && volta install node \
+    && volta install yarn

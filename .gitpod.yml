@@ -1,7 +1,7 @@
 tasks:
   - before: make docker-up
     command: make docker-start
-  - before: cd frontend && npm install
+  - before: make docker-up
     command: make docker-start-frontend
 
 vscode:
