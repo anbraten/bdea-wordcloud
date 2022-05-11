@@ -14,6 +14,8 @@ This project creates word-clouds based on a tfidf calculation for txt-files whic
 
 [docs/bdea_wordcloud.pdf](docs/bdea_wordcloud.pdf)
 
+[docs/presentation.pdf](docs/presentation.pdf)
+
 [![YouTube Demo Video](https://img.youtube.com/vi/Z8s7Z4lzZ6U/0.jpg)](https://youtu.be/Z8s7Z4lzZ6U)
 
 ## Content
