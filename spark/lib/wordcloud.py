@@ -6,7 +6,7 @@ from wordcloud import WordCloud, ImageColorGenerator
 import os
 import os.path
 
-basePath = os.path.join(os.getcwd(), 'data')
+basePath = os.path.join(os.getcwd(), 'fake-hdfs')
 
 def generate_wordcloud(filename: str, frequencies):
     print("generating wordcloud ...")

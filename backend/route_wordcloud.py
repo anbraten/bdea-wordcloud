@@ -5,7 +5,7 @@ from werkzeug.utils import secure_filename
 import threading
 from typing import Dict
 
-base_path = os.path.join(os.getcwd(), 'data')
+base_path = os.path.join(os.getcwd(), 'fake-hdfs')
 locks: Dict[str, threading.Lock] = dict()
 cumulative_wordcloud_lock = threading.Lock()
 
